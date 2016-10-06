@@ -20,6 +20,7 @@ import io.vertx.lang.groovy.InternalHelper
 import io.vertx.core.json.JsonObject
 import io.vertx.groovy.ext.web.Route
 import java.util.Set
+import io.vertx.core.json.JsonObject
 import io.vertx.groovy.ext.web.RoutingContext
 import io.vertx.groovy.ext.auth.oauth2.OAuth2Auth
 /**
@@ -66,14 +67,13 @@ public class OAuth2AuthHandler implements AuthHandler {
     return ret;
   }
   /**
-   * Build the authorization URL.
-   * @param redirectURL where is the callback mounted.
-   * @param state state opaque token to avoid forged requests
-   * @return the redirect URL
+   * Extra parameters needed to be passed while requesting a token.
+   * @param extraParams extra optional parameters.
+   * @return self
    */
-  public String authURI(String redirectURL, String state) {
-    def ret = delegate.authURI(redirectURL, state);
-    return ret;
+  public OAuth2AuthHandler extraParams(Map<String, Object> extraParams) {
+    delegate.extraParams(extraParams != null ? new io.vertx.core.json.JsonObject(extraParams) : null);
+    return this;
   }
   /**
    * add the callback handler to a given route.
